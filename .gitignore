@@ -1,0 +1,35 @@
+.DS_Store
+.claude/skills/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Node / frontend build artifacts
+node_modules/
+.next/
+.next_stale_*/
+dist/
+build/
+.audit/
+.audit2/
+
+# Local environment files
+.env
+
+# Local databases and backups
+*.db
+*.db*
+*.sqlite
+*.sqlite3
+*.backup
+*_backup
+
+# Streamlit / misc caches
+.streamlit/secrets.toml
