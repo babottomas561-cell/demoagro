@@ -2,6 +2,91 @@ from __future__ import annotations
 
 import pandas as pd
 
+QUALITY_ANALYSIS_COLUMNS = [
+    "analisis_calidad_id",
+    "lote_calidad_id",
+    "analysis_date",
+    "humedad_pct",
+    "impurezas_pct",
+    "proteina_pct",
+    "bonificacion_castigo_unit",
+    "grado_comercial",
+]
+
+QUALITY_LOT_COLUMNS = [
+    "lote_calidad_id",
+    "producto_id",
+    "deposito_id",
+    "cosecha_id",
+    "available_tons",
+]
+
+HARVEST_COLUMNS = [
+    "cosecha_id",
+    "lote_campania_id",
+]
+
+ASSIGNMENT_COLUMNS = [
+    "lote_campania_id",
+    "campania_id",
+    "crop_code",
+]
+
+CAMPAIGN_COLUMNS = [
+    "campania_id",
+    "campaign_code",
+]
+
+QUALITY_PRODUCT_COLUMNS = [
+    "producto_id",
+    "product_code",
+    "product_name",
+]
+
+PURCHASE_INVOICE_COLUMNS = [
+    "factura_compra_id",
+    "recepcion_compra_id",
+    "proveedor_id",
+    "invoice_date",
+    "due_date",
+    "net_amount",
+    "vat_amount",
+    "total_amount",
+]
+
+PURCHASE_DETAIL_COLUMNS = [
+    "factura_compra_det_id",
+    "factura_compra_id",
+    "producto_id",
+    "net_amount",
+    "vat_rate",
+]
+
+PURCHASE_RECEIPT_COLUMNS = [
+    "recepcion_compra_id",
+    "orden_compra_id",
+    "receipt_date",
+]
+
+PURCHASE_ORDER_COLUMNS = [
+    "orden_compra_id",
+    "order_date",
+]
+
+SUPPLIER_COLUMNS = [
+    "proveedor_id",
+    "supplier_name",
+    "supplier_group",
+    "payment_term_days",
+]
+
+PROCUREMENT_PRODUCT_COLUMNS = [
+    "producto_id",
+    "product_code",
+    "product_name",
+    "category_code",
+]
+
 
 def build_quality_supply_overview(
     bundle: dict[str, pd.DataFrame],
@@ -294,12 +379,31 @@ def _quality_base(
     bundle: dict[str, pd.DataFrame],
     filters: dict[str, object],
 ) -> pd.DataFrame:
-    analyses = bundle["erp_analisis_calidad"].copy()
-    quality_lots = bundle["erp_lotes_calidad"].copy()
-    harvests = bundle["erp_cosechas"][["cosecha_id", "lote_campania_id"]].copy()
-    assignments = bundle["erp_lote_campania"][["lote_campania_id", "campania_id", "crop_code"]].copy()
-    campaigns = bundle["erp_campanias"][["campania_id", "campaign_code"]].copy()
-    products = bundle["erp_productos"][["producto_id", "product_code", "product_name"]].copy()
+    analyses = _bundle_frame(bundle, "erp_analisis_calidad", QUALITY_ANALYSIS_COLUMNS)
+    quality_lots = _bundle_frame(bundle, "erp_lotes_calidad", QUALITY_LOT_COLUMNS)
+    harvests = _bundle_frame(bundle, "erp_cosechas", HARVEST_COLUMNS)[HARVEST_COLUMNS].copy()
+    assignments = _bundle_frame(bundle, "erp_lote_campania", ASSIGNMENT_COLUMNS)[ASSIGNMENT_COLUMNS].copy()
+    campaigns = _bundle_frame(bundle, "erp_campanias", CAMPAIGN_COLUMNS)[CAMPAIGN_COLUMNS].copy()
+    products = _bundle_frame(bundle, "erp_productos", QUALITY_PRODUCT_COLUMNS)[QUALITY_PRODUCT_COLUMNS].copy()
+
+    if analyses.empty or quality_lots.empty or harvests.empty or assignments.empty or campaigns.empty or products.empty:
+        return pd.DataFrame(
+            columns=[
+                "period_id",
+                "analisis_calidad_id",
+                "available_tons",
+                "weighted_humidity",
+                "weighted_impurity",
+                "weighted_protein",
+                "weighted_bonus",
+                "grade_one_tons",
+                "grado_comercial",
+                "campaign_code",
+                "crop_code",
+                "product_code",
+                "product_name",
+            ]
+        )
 
     quality = (
         analyses.merge(quality_lots, on="lote_calidad_id", how="left")
@@ -325,18 +429,37 @@ def _procurement_base(
     bundle: dict[str, pd.DataFrame],
     filters: dict[str, object],
 ) -> pd.DataFrame:
-    invoices = bundle["fin_facturas_compra"].copy().rename(
+    invoices = _bundle_frame(bundle, "fin_facturas_compra", PURCHASE_INVOICE_COLUMNS).rename(
         columns={
             "net_amount": "invoice_net_amount",
             "vat_amount": "invoice_vat_amount",
             "total_amount": "invoice_total_amount",
         }
     )
-    details = bundle["fin_facturas_compra_det"].copy().rename(columns={"net_amount": "line_net_amount"})
-    receipts = bundle["erp_recepciones_compra"].copy()
-    orders = bundle["erp_ordenes_compra"].copy()
-    suppliers = bundle["erp_proveedores"][["proveedor_id", "supplier_name", "supplier_group", "payment_term_days"]].copy()
-    products = bundle["erp_productos"][["producto_id", "product_code", "product_name", "category_code"]].copy()
+    details = _bundle_frame(bundle, "fin_facturas_compra_det", PURCHASE_DETAIL_COLUMNS).rename(
+        columns={"net_amount": "line_net_amount"}
+    )
+    receipts = _bundle_frame(bundle, "erp_recepciones_compra", PURCHASE_RECEIPT_COLUMNS)
+    orders = _bundle_frame(bundle, "erp_ordenes_compra", PURCHASE_ORDER_COLUMNS)
+    suppliers = _bundle_frame(bundle, "erp_proveedores", SUPPLIER_COLUMNS)[SUPPLIER_COLUMNS].copy()
+    products = _bundle_frame(bundle, "erp_productos", PROCUREMENT_PRODUCT_COLUMNS)[PROCUREMENT_PRODUCT_COLUMNS].copy()
+
+    if invoices.empty or details.empty or receipts.empty or orders.empty or suppliers.empty or products.empty:
+        return pd.DataFrame(
+            columns=[
+                "period_id",
+                "factura_compra_id",
+                "supplier_name",
+                "supplier_group",
+                "product_code",
+                "product_name",
+                "category_code",
+                "line_net_amount",
+                "line_total_amount",
+                "lead_time_days",
+                "payment_term_days",
+            ]
+        )
 
     purchases = (
         invoices.merge(details, on="factura_compra_id", how="left")
@@ -404,3 +527,14 @@ def _weighted_average(
     if weight_total == 0:
         return 0.0
     return float((dataframe[value_column] * dataframe[weight_column]).sum() / weight_total)
+
+
+def _bundle_frame(
+    bundle: dict[str, pd.DataFrame],
+    key: str,
+    columns: list[str],
+) -> pd.DataFrame:
+    dataframe = bundle.get(key)
+    if isinstance(dataframe, pd.DataFrame):
+        return dataframe.copy()
+    return pd.DataFrame(columns=columns)

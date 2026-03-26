@@ -4,32 +4,34 @@ import math
 
 import pandas as pd
 
+REQUIRED_NUMERIC_COLUMNS: dict[str, float] = {
+    "revenue_net": 0.0,
+    "cogs": 0.0,
+    "gross_margin": 0.0,
+    "payroll_total": 0.0,
+    "maintenance_expense": 0.0,
+    "logistics_expense": 0.0,
+    "opex_total": 0.0,
+    "ebitda_approx": 0.0,
+    "collections_amount": 0.0,
+    "supplier_payments_amount": 0.0,
+    "payroll_cash_amount": 0.0,
+    "tax_payments_amount": 0.0,
+    "logistics_cash_amount": 0.0,
+    "net_cash_flow": 0.0,
+    "sold_tons": 0.0,
+}
+
 
 def prepare_finance_analysis(finance: pd.DataFrame) -> pd.DataFrame:
     if finance.empty:
         return finance.copy()
 
     enriched = finance.copy().sort_values("period_id").reset_index(drop=True)
-    numeric_columns = [
-        "revenue_net",
-        "cogs",
-        "gross_margin",
-        "payroll_total",
-        "maintenance_expense",
-        "logistics_expense",
-        "opex_total",
-        "ebitda_approx",
-        "collections_amount",
-        "supplier_payments_amount",
-        "payroll_cash_amount",
-        "tax_payments_amount",
-        "logistics_cash_amount",
-        "net_cash_flow",
-        "sold_tons",
-    ]
-    for column in numeric_columns:
-        if column in enriched.columns:
-            enriched[column] = pd.to_numeric(enriched[column], errors="coerce").fillna(0.0)
+    for column, default in REQUIRED_NUMERIC_COLUMNS.items():
+        if column not in enriched.columns:
+            enriched[column] = default
+        enriched[column] = pd.to_numeric(enriched[column], errors="coerce").fillna(default)
 
     enriched["gross_margin_pct_calc"] = _safe_divide(enriched["gross_margin"], enriched["revenue_net"])
     enriched["ebitda_margin_pct"] = _safe_divide(enriched["ebitda_approx"], enriched["revenue_net"])

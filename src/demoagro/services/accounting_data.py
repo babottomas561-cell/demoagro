@@ -2,12 +2,68 @@ from __future__ import annotations
 
 import pandas as pd
 
+TAX_COLUMNS = [
+    "posicion_fiscal_id",
+    "empresa_id",
+    "period_id",
+    "iva_debito",
+    "iva_credito",
+    "saldo_iva",
+    "cargas_sociales",
+    "payable_amount",
+]
+
+ENTRY_COLUMNS = [
+    "asiento_id",
+    "empresa_id",
+    "entry_date",
+    "entry_type",
+    "source_table",
+    "source_id",
+]
+
+DETAIL_COLUMNS = [
+    "asiento_det_id",
+    "asiento_id",
+    "cuenta_contable_id",
+    "centro_costo_id",
+    "debit_amount",
+    "credit_amount",
+    "memo",
+]
+
+ACCOUNT_COLUMNS = [
+    "cuenta_contable_id",
+    "account_code",
+    "account_name",
+    "account_group",
+]
+
+BOOK_COLUMNS = [
+    "asiento_id",
+    "empresa_id",
+    "entry_date",
+    "entry_type",
+    "source_table",
+    "source_id",
+    "asiento_det_id",
+    "cuenta_contable_id",
+    "centro_costo_id",
+    "debit_amount",
+    "credit_amount",
+    "memo",
+    "account_code",
+    "account_name",
+    "account_group",
+    "period_id",
+]
+
 
 def get_tax_period(
     bundle: dict[str, pd.DataFrame],
     filters: dict[str, object],
 ) -> pd.DataFrame:
-    tax = bundle["tax_posiciones_fiscales_periodo"].copy()
+    tax = _bundle_frame(bundle, "tax_posiciones_fiscales_periodo", TAX_COLUMNS)
     tax["period_id"] = pd.to_datetime(tax["period_id"].astype(str), format="%Y%m", errors="coerce").dt.strftime("%Y-%m")
     tax = _apply_period_filter(tax, "period_id", filters)
     return tax.sort_values("period_id").reset_index(drop=True)
@@ -17,9 +73,12 @@ def get_accounting_book(
     bundle: dict[str, pd.DataFrame],
     filters: dict[str, object],
 ) -> pd.DataFrame:
-    entries = bundle["cont_asientos"].copy()
-    details = bundle["cont_asientos_det"].copy()
-    accounts = bundle["cont_plan_cuentas"].copy()
+    entries = _bundle_frame(bundle, "cont_asientos", ENTRY_COLUMNS)
+    details = _bundle_frame(bundle, "cont_asientos_det", DETAIL_COLUMNS)
+    accounts = _bundle_frame(bundle, "cont_plan_cuentas", ACCOUNT_COLUMNS)
+
+    if entries.empty or details.empty or accounts.empty:
+        return pd.DataFrame(columns=BOOK_COLUMNS)
 
     book = entries.merge(details, on="asiento_id", how="left").merge(accounts, on="cuenta_contable_id", how="left")
     book["period_id"] = pd.to_datetime(book["entry_date"], errors="coerce").dt.strftime("%Y-%m")
@@ -187,3 +246,14 @@ def _apply_period_filter(
     if end:
         result = result[result[period_column] <= str(end)]
     return result
+
+
+def _bundle_frame(
+    bundle: dict[str, pd.DataFrame],
+    key: str,
+    columns: list[str],
+) -> pd.DataFrame:
+    dataframe = bundle.get(key)
+    if isinstance(dataframe, pd.DataFrame):
+        return dataframe.copy()
+    return pd.DataFrame(columns=columns)

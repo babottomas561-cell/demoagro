@@ -30,3 +30,17 @@ def test_quality_supply_overview_returns_expected_cards() -> None:
         "Compras netas",
         "Lead time promedio",
     }
+
+
+def test_procurement_period_tolerates_missing_purchase_tables() -> None:
+    procurement_period = get_procurement_period(bundle={}, filters={})
+
+    assert procurement_period.empty
+    assert {"period_id", "invoice_count", "spend_net", "spend_total"}.issubset(procurement_period.columns)
+
+
+def test_quality_period_tolerates_missing_quality_tables() -> None:
+    quality_period = get_quality_period(bundle={}, filters={})
+
+    assert quality_period.empty
+    assert {"period_id", "analysis_count", "tons_analyzed", "avg_humidity_pct"}.issubset(quality_period.columns)
