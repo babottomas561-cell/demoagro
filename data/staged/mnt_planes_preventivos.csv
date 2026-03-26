@@ -1,0 +1,9 @@
+plan_preventivo_id,activo_id,task_name,cycle_days
+MPL_00001,ACT_0001,Servicio preventivo,45
+MPL_00002,ACT_0002,Servicio preventivo,30
+MPL_00003,ACT_0003,Servicio preventivo,30
+MPL_00004,ACT_0004,Servicio preventivo,45
+MPL_00005,ACT_0005,Servicio preventivo,30
+MPL_00006,ACT_0006,Servicio preventivo,60
+MPL_00007,ACT_0007,Servicio preventivo,45
+MPL_00008,ACT_0008,Servicio preventivo,45

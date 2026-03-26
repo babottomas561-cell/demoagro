@@ -1,0 +1,8 @@
+categoria_producto_id,category_code,category_name
+CAT_0001,GRANO,Grano
+CAT_0002,SEMILLA,Semilla
+CAT_0003,FERTILIZANTE,Fertilizante
+CAT_0004,FITOSANITARIO,Fitosanitario
+CAT_0005,COMBUSTIBLE,Combustible
+CAT_0006,REPUESTO,Repuesto
+CAT_0007,SERVICIO,Servicio

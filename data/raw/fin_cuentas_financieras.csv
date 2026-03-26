@@ -1,0 +1,4 @@
+cuenta_financiera_id,empresa_id,account_name,account_type
+BANK_0001,EMP_0001,Caja Operativa,CAJA
+BANK_0002,EMP_0001,Banco Principal,BANCO
+BANK_0003,EMP_0001,Banco Cobros,BANCO

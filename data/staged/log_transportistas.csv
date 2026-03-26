@@ -1,0 +1,4 @@
+transportista_id,transporter_name,mode
+TRP_0001,Logistica Pampeana,TERCERO
+TRP_0002,Camiones del Norte,TERCERO
+TRP_0003,Flota Propia,PROPIO

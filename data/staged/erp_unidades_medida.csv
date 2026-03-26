@@ -1,0 +1,8 @@
+unidad_medida_id,uom_code,uom_name
+UOM_0001,KG,Kilogramo
+UOM_0002,TN,Tonelada
+UOM_0003,LT,Litro
+UOM_0004,HA,Hectarea
+UOM_0005,UN,Unidad
+UOM_0006,HR,Hora
+UOM_0007,MES,Mes

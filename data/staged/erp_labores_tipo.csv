@@ -1,0 +1,5 @@
+labor_tipo_id,labor_type_code,labor_type_name
+LABT_0001,SIEMBRA,Siembra
+LABT_0002,FERTILIZACION,Fertilizacion
+LABT_0003,PULVERIZACION,Pulverizacion
+LABT_0004,COSECHA,Cosecha

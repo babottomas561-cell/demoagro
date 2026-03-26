@@ -1,0 +1,7 @@
+categoria_rrhh_id,category_code,category_name,base_salary
+RRC_0001,OPER_CAMPO,Operario de Campo,1250.0
+RRC_0002,MECANICO,Mecanico,1450.0
+RRC_0003,CHOFER,Chofer,1380.0
+RRC_0004,ADMIN,Administracion,1180.0
+RRC_0005,COMERCIAL,Comercial,1420.0
+RRC_0006,SUPERVISOR,Supervisor,1820.0

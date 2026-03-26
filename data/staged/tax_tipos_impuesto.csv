@@ -1,0 +1,4 @@
+tipo_impuesto_id,tax_code,tax_name
+TAX_0001,IVA_DEBITO,IVA Debito Fiscal
+TAX_0002,IVA_CREDITO,IVA Credito Fiscal
+TAX_0003,CARGAS_SOC,Cargas Sociales

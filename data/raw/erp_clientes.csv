@@ -1,0 +1,9 @@
+cliente_id,client_name,condicion_iva_id,preferred_product_code,payment_term_days
+CLI_0001,Acopio Los Ceibos,IVA_0001,MAIZ_GRANO,60
+CLI_0002,Molino Central,IVA_0001,TRIGO_GRANO,30
+CLI_0003,NutriFeed,IVA_0001,MAIZ_GRANO,45
+CLI_0004,Exportadora del Sur,IVA_0001,SOJA_GRANO,75
+CLI_0005,Agroinsumos del Centro,IVA_0001,TRIGO_GRANO,30
+CLI_0006,Cooperativa San Miguel,IVA_0001,SOJA_GRANO,60
+CLI_0007,Granos del NOA,IVA_0001,MAIZ_GRANO,60
+CLI_0008,Procesadora Andina,IVA_0001,SOJA_GRANO,75

@@ -1,0 +1,7 @@
+centro_costo_id,empresa_id,center_code,center_name
+CC_0001,EMP_0001,AGRO,Produccion Agricola
+CC_0002,EMP_0001,LOG,Logistica
+CC_0003,EMP_0001,MNT,Mantenimiento
+CC_0004,EMP_0001,ADM,Administracion
+CC_0005,EMP_0001,COM,Comercial
+CC_0006,EMP_0001,RRHH,RRHH

@@ -1,0 +1,11 @@
+proveedor_id,supplier_name,condicion_iva_id,supplier_group,payment_term_days
+SUP_0001,SeedCorp,IVA_0001,SEMILLA,45
+SUP_0002,FertiNorte,IVA_0001,FERTILIZANTE,45
+SUP_0003,Protec Agro,IVA_0001,FITOSANITARIO,45
+SUP_0004,Combustibles Ruta,IVA_0001,COMBUSTIBLE,60
+SUP_0005,Taller Metal,IVA_0001,REPUESTO,30
+SUP_0006,Logistica Pampeana,IVA_0001,SERVICIO,45
+SUP_0007,Servicios Integrales,IVA_0001,SERVICIO,45
+SUP_0008,AgroCentro,IVA_0001,SEMILLA,45
+SUP_0009,Quimicos del Sur,IVA_0001,FITOSANITARIO,45
+SUP_0010,Repuestos Argentinos,IVA_0001,REPUESTO,30

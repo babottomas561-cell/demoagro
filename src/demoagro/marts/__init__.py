@@ -1,0 +1,2 @@
+"""Analytical marts for Demoagro."""
+

@@ -1,0 +1,7 @@
+regla_asiento_id,event_code,description
+RGL_0001,FACTURA_COMPRA,Compra a proveedor
+RGL_0002,FACTURA_VENTA,Venta a cliente
+RGL_0003,COSTO_VENTA,Reconocimiento del costo
+RGL_0004,DEVENGO_NOMINA,Devengo de nomina
+RGL_0005,PAGO_IMPUESTOS,Cancelacion obligaciones fiscales
+RGL_0006,PAGO_LOGISTICA,Pago de servicio logistico tercerizado

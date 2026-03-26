@@ -1,0 +1,17 @@
+cuenta_contable_id,account_code,account_name,account_group
+CTA_0001,1.1.01,Caja y Bancos,ACTIVO
+CTA_0002,1.1.02,Cuentas por Cobrar,ACTIVO
+CTA_0003,1.1.03,IVA Credito Fiscal,ACTIVO
+CTA_0004,1.1.04,Inventario Insumos,ACTIVO
+CTA_0005,1.1.05,Inventario Granos,ACTIVO
+CTA_0006,2.1.01,Cuentas por Pagar,PASIVO
+CTA_0007,2.1.02,IVA Debito Fiscal,PASIVO
+CTA_0008,2.1.03,Sueldos a Pagar,PASIVO
+CTA_0009,2.1.04,Cargas Sociales a Pagar,PASIVO
+CTA_0010,4.1.01,Ventas de Granos,RESULTADO
+CTA_0011,5.1.01,Costo de Ventas,RESULTADO
+CTA_0012,5.1.02,Gasto Salarial,RESULTADO
+CTA_0013,5.1.03,Gasto Mantenimiento,RESULTADO
+CTA_0014,5.1.04,Gasto Logistico,RESULTADO
+CTA_0015,5.1.05,Gasto Administrativo,RESULTADO
+CTA_0016,5.1.06,Impuestos y Tasas,RESULTADO

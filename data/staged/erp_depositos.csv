@@ -1,0 +1,5 @@
+deposito_id,establecimiento_id,deposit_name,deposit_type
+DEP_0001,EST_0001,Panal de Insumos Norte,INSUMOS
+DEP_0002,EST_0001,Silo Norte,GRANO
+DEP_0003,EST_0002,Silo Sur,GRANO
+DEP_0004,EST_0001,Panal de Repuestos,REPUESTOS
